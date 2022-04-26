@@ -3,13 +3,22 @@
 GET {{url}}/api/users
 ###
 
-POST {{url}}/api/users
+POST {{url}}/api/users/register
 Content-Type: application/json
 
 {
-    "firstName": "Roimat",
-    "lastName": "Usman Ali",
-    "email": "usman@gmail.com",
+    "firstName": "Taiye",
+    "lastName": "hassan Ali",
+    "email": "hassan@gmail.com",
     "password": "123456",
-    "gender": "female"
+    "gender": "male"
+}
+###
+
+POST {{url}}/api/users/login
+Content-Type: application/json
+
+{
+    "email":"abdulganiyu@codevillage.ng",
+    "password":"123456"
 }

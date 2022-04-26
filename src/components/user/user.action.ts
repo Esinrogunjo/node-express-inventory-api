@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { consloeLog, generateId } from "../../utils/helpers";
 import Access from "../auth/access.model";
+import { checkHash, generateToken } from "../auth/auth.utils";
 import { Employee } from "./user.model";
 
 export const doCreateEmployee = async (req: Request, res: Response) => {
@@ -20,6 +21,7 @@ export const doCreateEmployee = async (req: Request, res: Response) => {
       lastName,
       email,
       gender,
+      uniqueId: generateId(),
     }).save();
     await new Access({
       user: newEmployee._id,
@@ -38,5 +40,45 @@ export const doCreateEmployee = async (req: Request, res: Response) => {
     return res
       .status(StatusCodes.FORBIDDEN)
       .json({ message: `could not create user ${error}` });
+  }
+};
+
+export const doLogin = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await Employee.findOne({ email });
+
+    if (!user) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "invalid email or password" });
+    }
+    const access = await Access.findOne({ user: user._id });
+    if (!access) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "invalid email or password or access" });
+    }
+    if (!checkHash(password, access.password))
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "invalid email or password please check" });
+
+    const token = generateToken({
+      user: user.firstName + user.lastName,
+      email: user.email,
+      uniquId: user.uniqueId,
+    });
+
+    return res.status(StatusCodes.OK).json({
+      token,
+      message: "welcome back man",
+      user: {
+        username: user.firstName + user.lastName,
+        uniqueId: user.uniqueId,
+      },
+    });
+  } catch (error) {
+    res.json({ message: "could not  login", error });
   }
 };

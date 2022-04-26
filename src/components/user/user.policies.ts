@@ -15,7 +15,24 @@ export const validCreateEmployee = (
   });
   const { error } = employeeSchema.validate(req.body);
   if (error) {
-    res.status(400).json({ message: error });
+    return res.status(400).json({ message: error });
+  }
+  return next();
+};
+
+export const validateLogin = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const loginSchema = joi.object({
+    email: joi.string().email().required(),
+    password: joi.string().required(),
+  });
+
+  const { error } = loginSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error });
   }
   return next();
 };

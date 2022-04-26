@@ -6,6 +6,7 @@ export interface IUser extends Document {
   lastName: string;
   email: string;
   gender: genderType;
+  uniqueId: String;
   contact: Array<{
     countryCode: string;
     phoneNo: string;
