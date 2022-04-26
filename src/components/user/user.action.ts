@@ -70,6 +70,10 @@ export const doLogin = async (req: Request, res: Response) => {
       uniquId: user.uniqueId,
     });
 
+    // check if session exists
+    // if it exists, incremented no of times it was used, update lastLogin, isLoggedOut: false, other relevant fields
+    // if it doesn't, that means the device or some other things are new, so create new
+
     return res.status(StatusCodes.OK).json({
       token,
       message: "welcome back man",

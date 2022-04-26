@@ -19,6 +19,12 @@ export interface IAccess extends Document {
     expiresBy: Date;
     purpose: "passReset" | "verification" | "sensitiveUpdate";
   };
+  canAccess: string[];
+  subscriptionEnds?: Date;
+  isActivated: boolean;
+  isBlocked?: boolean;
+  lastLogin: Date;
+  lastLoginAttempt: Date;
   sessions: (ISession | SessionI)[];
 }
 
@@ -27,7 +33,7 @@ const accessSchema = new Schema(
     user: {
       type: ObjectId,
       required: true,
-      ref: "User",
+      ref: "Employee",
     },
     permissions: [String],
     password: {
@@ -48,6 +54,12 @@ const accessSchema = new Schema(
         enum: ["passReset", "verification", "sensitiveUpdate"],
       },
     },
+    canAccess: [String],
+    subscriptionEnds: Date,
+    isActivated: Boolean,
+    isBlocked: Boolean,
+    lastLogin: Date,
+    lastLoginAttempt: Date,
     sessions: [
       {
         used: Number,
