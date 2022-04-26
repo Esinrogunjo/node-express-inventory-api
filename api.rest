@@ -1,0 +1,15 @@
+@url = http://localhost:4000
+
+GET {{url}}/api/users
+###
+
+POST {{url}}/api/users
+Content-Type: application/json
+
+{
+    "firstName": "Roimat",
+    "lastName": "Usman Ali",
+    "email": "usman@gmail.com",
+    "password": "123456",
+    "gender": "female"
+}
