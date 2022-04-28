@@ -117,7 +117,7 @@ export const doLogin = async (req: IRequest, res: Response) => {
         ref: user._id,
         deviceId: deviceHash,
         sessionId: session.sessionId,
-        authKey: userAccess.accesskeys.securityCode,
+        authKey: userAccess.accessKeys.securityCode,
       },
       authConfigs.sessionLivespan
     );

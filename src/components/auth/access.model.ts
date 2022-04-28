@@ -33,7 +33,7 @@ export interface IAccess extends Document {
   user: IEmployee["id"];
   permissions: permissionType[];
   password: string;
-  accesskeys: {
+  accessKeys: {
     passResetCode: string;
     verificationCode: string;
     securityCode: string;
