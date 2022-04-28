@@ -19,3 +19,8 @@ export const seedData: {
   password: process.env.SEED_USER_PASSWORD || "",
   gender: (process.env.SEED_USER_GENDER || "male") as genderType,
 };
+
+export const authConfigs = {
+  maxInactivity: "5 hrs",
+  sessionLivespan: "3 days",
+};

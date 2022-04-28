@@ -1,8 +1,33 @@
-import { Document, Schema, model } from "mongoose";
+import { Document, Schema, model, ObjectId as ObjId } from "mongoose";
 import { IEmployee } from "../user/user.model";
 import { ISession, permissionType, SessionI } from "../../utils/types";
 import { hashWord } from "./auth.utils";
 const { Mixed, ObjectId } = Schema.Types;
+import { FingerprintResult } from "express-fingerprint";
+import { Request } from "express";
+
+export interface IRequest extends Request {
+  userId?: ObjId;
+  fingerprint?: FingerprintResult;
+
+  decoded?: IDecodedTokenData;
+  permissions?: string[];
+  canAccess?: string[];
+}
+
+export interface IDecodedTokenData {
+  deviceId?: string;
+  sessionId?: string;
+  ref?: IEmployee["_id"];
+  authKey?: string;
+  securityCode?: string;
+}
+export interface IToken {
+  deviceId: string;
+  sessionId: string;
+  ref: ObjId;
+  authKey: string;
+}
 
 export interface IAccess extends Document {
   user: IEmployee["id"];
